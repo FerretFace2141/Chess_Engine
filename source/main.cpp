@@ -1,56 +1,64 @@
- #include <iostream>
- using namespace std;
- #include <GL/glew.h>
- #include <GLFW/glfw3.h>
+#include <iostream>
+#include <math.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+void drawBoard()
+{
+    bool color = true;
+    float square_length = 0.175, square_width = 0.175;
+    float offset = 0.1;
+    for(int x = -4; x < 4; x++)
+    {
+        for(int y = -4; y < 4; y++)
+        {
+            if(color)
+                glColor3f(0.95, 0.75, 0.55);
+            else
+                glColor3f(0.42, 0.30, 0.20);
+
+            glRectf(float((x + offset)*square_width), float((y + offset)*square_width), float(((x + offset) +1)*square_width), float(((y + offset) + 1)*square_length));
+            color = !color;
+        }
+        color = !color;
+    }
+}
+
 
  int main(void)
  {
-     GLFWwindow* window;
+    GLFWwindow* window;
 
-     /* Initialize the library */
-     if (!glfwInit())    
-         return -1;
+    /* Initialize the library */
+    glfwInit();
+    glewInit();
 
-     /* Create a windowed mode window and its OpenGL context */
-     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-     if (!window)
-     {
-         glfwTerminate();
-         return -1;
-     }
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(1000, 1000, "Chess", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
 
-     /* Make the window's context current */
-     glfwMakeContextCurrent(window);
-     /*
-     if(glewInit() != GLEW_OK){
-         cout << "Unable to load glew" << endl;
-     }
-     else{
-         cout << glGetString(GL_VERSION) << endl;
-     }
-     */
-     /* Loop until the user closes the window */
-     while (!glfwWindowShouldClose(window))
-     {
-         /* Render here */
-         glClear(GL_COLOR_BUFFER_BIT);
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
 
-         /*Code To print a Triangle*/
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
 
-         glBegin(GL_POLYGON);
-         glVertex2f(-0.5f, -0.5f);
-         glVertex2f(0.5f, -0.5f);
-         glVertex2f(0.5f, 0.5f);
-         glVertex2f(-0.5f, 0.5f);
-         glEnd();
+        drawBoard();
 
-         /* Swap front and back buffers */
-         glfwSwapBuffers(window);
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
-         /* Poll for and process events */
-         glfwPollEvents();
-     }
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
 
-     glfwTerminate();
-     return 0;
- }
+    glfwTerminate();
+    return 0;
+}
