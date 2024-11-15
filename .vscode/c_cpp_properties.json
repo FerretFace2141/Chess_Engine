@@ -3,8 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}\\dependencies\\lib",
-                "${workspaceFolder}\\dependencies\\include"
+                "${workspaceFolder}\\Graphics\\dependencies\\lib",
+                "${workspaceFolder}\\Graphics\\dependencies\\include"
             ],
             "defines": [
                 "_DEBUG",

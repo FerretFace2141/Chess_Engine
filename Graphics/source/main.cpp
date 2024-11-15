@@ -24,17 +24,14 @@ void drawBoard()
     }
 }
 
-
- int main(void)
- {
-    GLFWwindow* window;
-
+int main(void)
+{
     /* Initialize the library */
     glfwInit();
     glewInit();
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(1000, 1000, "Chess", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1000, 1000, "Chess", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
