@@ -1,3 +1,7 @@
 Tutorial Link: https://www.youtube.com/watch?v=z03LXhRBLGI&list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&index=2
 Repo Link: https://github.com/VictorGordan/opengl-tutorials/tree/main
 **NOTE** I used GLEW instead of GLAD. However these videos and the repo were the backbone of my GUI
+
+Board Link: https://www.shutterstock.com/image-vector/wooden-chess-board-background-illustration-2245855339 
+Pieces Link: https://github.com/lichess-org/lila/tree/master/public/piece (cburnett from lichess) converted them
+    to .png format using a free online converter
