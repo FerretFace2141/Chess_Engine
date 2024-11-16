@@ -6,3 +6,4 @@ FOLDERS:
     Engine = Create the engine 
     Graphics = Display the board
     Application = Put everything together (location of main)
+    Each folder contains a .txt where I've put documentation and my sources (tutorials, other repos, resources, etc)
