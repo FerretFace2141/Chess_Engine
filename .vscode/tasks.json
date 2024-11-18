@@ -10,8 +10,6 @@
 
                 "-g",
 
-                "-mwindows",
-
                 "-I${workspaceFolder}\\Graphics\\Headers",
                 "-I${workspaceFolder}\\Graphics\\Dependencies\\Include",
                 "-L${workspaceFolder}\\Graphics\\Dependencies\\Lib",

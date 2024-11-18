@@ -10,20 +10,22 @@
 #include "vbo.h"
 #include "ebo.h"
 
+GLfloat size = 0.8f;
+
 // Vertices coordinates
 GLfloat vertices[] =
-{ //     COORDINATES     /        COLORS      /   TexCoord  //
-	-0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,	0.0f, 0.0f, // Lower left corner
-	-0.5f,  0.5f, 0.0f,   0.0f, 1.0f, 0.0f,	0.0f, 1.0f, // Upper left corner
-	 0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // Upper right corner
-	 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,	1.0f, 0.0f  // Lower right corner
+{ //  COORDINATES  /  TexCoord   //
+	-size, -size,     0.0f, 0.0f, // Lower left corner
+	-size,  size,     0.0f, 1.0f, // Upper left corner
+	 size,  size,     1.0f, 1.0f, // Upper right corner
+	 size, -size,     1.0f, 0.0f  // Lower right corner
 };
 
 // Indices for vertices order
 GLuint indices[] =
 {
 	0, 2, 1, // Upper triangle
-	0, 3, 2 // Lower triangle
+	0, 3, 2, // Lower triangle
 };
 
 int main()
@@ -55,20 +57,16 @@ int main()
 	// Generates Element Buffer Object and links it to indices
 	EBO EBO1(indices, sizeof(indices));
 
-	// Links VBO attributes such as coordinates and colors to VAO
-	VAO1.linkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-	VAO1.linkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	VAO1.linkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	// Links VBO attributes to VAO
+	VAO1.linkAttrib(VBO1, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0); // Vertex Coords
+	VAO1.linkAttrib(VBO1, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(float))); // Texture Coords
 	// Unbind all to prevent accidentally modifying them
 	VAO1.unbind();
 	VBO1.unbind();
 	EBO1.unbind();
 
-	// Gets ID of uniform called "scale"
-	GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
-
 	// Texture
-	Texture image("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\white_rook.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture image("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\board.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	image.texUnit(shaderProgram, "tex0", 0);
 
 	// Main while loop
@@ -80,8 +78,6 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Tell OpenGL which Shader Program we want to use
 		shaderProgram.activate();
-		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
-		glUniform1f(uniID, 0.5f);
 		// Binds texture so that is appears in rendering
 		image.bind();
 		// Bind the VAO so OpenGL knows to use it
