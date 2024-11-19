@@ -1,5 +1,6 @@
 LIBRARIES:
     Using openGL3.3 (GLEW and GLFW) for rendering
+    Using stb_image to convert .pngs into raw data to be made into texture objects
 
 FOLDERS:
     Chess = Implement the rules of the game
