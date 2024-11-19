@@ -14,15 +14,6 @@ void VAO::linkAttrib(VBO& VBO, GLuint layout, GLuint numComponents, GLenum type,
 	VBO.unbind();
 }
 
-// Links a VBO to the VAO using a certain layout
-void VAO::linkVBO(VBO& VBO, GLuint layout)
-{
-	VBO.bind();
-	glVertexAttribPointer(layout, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(layout);
-	VBO.unbind();
-}
-
 void VAO::bind()
 {
 	glBindVertexArray(ID);

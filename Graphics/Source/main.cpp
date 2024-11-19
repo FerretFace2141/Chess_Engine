@@ -10,15 +10,23 @@
 #include "vbo.h"
 #include "ebo.h"
 
-GLfloat size = 0.8f;
+GLfloat size = 0.7f;
+int square_x = 7, square_y = 7;
 
 // Vertices coordinates
 GLfloat vertices[] =
-{ //  COORDINATES  /  TexCoord   //
+{ //  COORDINATES  /   TexCoord   //
+    // Board
 	-size, -size,     0.0f, 0.0f, // Lower left corner
 	-size,  size,     0.0f, 1.0f, // Upper left corner
 	 size,  size,     1.0f, 1.0f, // Upper right corner
-	 size, -size,     1.0f, 0.0f  // Lower right corner
+	 size, -size,     1.0f, 0.0f,  // Lower right corner
+
+	// Lower left square
+	(size + -square_x * 0.175f),     (size + -square_y * 0.175f),         0.0f, 0.0f, // Lower left corner
+	(size + -square_x * 0.175f),     (size + -(square_y+1) * 0.175f),     0.0f, 1.0f, // Upper left corner
+	(size + -(square_x+1) * 0.175f), (size + -(square_y+1) * 0.175f),     1.0f, 1.0f, // Upper right corner
+	(size + -(square_x+1) * 0.175f), (size + -square_y * 0.175f),     	  1.0f, 0.0f,  // Lower right corner*/
 };
 
 // Indices for vertices order
@@ -26,6 +34,8 @@ GLuint indices[] =
 {
 	0, 2, 1, // Upper triangle
 	0, 3, 2, // Lower triangle
+	4, 6, 5, // Upper triangle
+	4, 7, 6, // Lower triangle*/
 };
 
 int main()
@@ -49,27 +59,29 @@ int main()
 						 "C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Shaders\\default.frag");
 
 	// Generates Vertex Array Object and binds it
-	VAO VAO1;
-	VAO1.bind();
+	VAO VAO;
+	VAO.bind();
 
 	// Generates Vertex Buffer Object and links it to vertices
-	VBO VBO1(vertices, sizeof(vertices));
+	VBO VBO(vertices, sizeof(vertices));
 	// Generates Element Buffer Object and links it to indices
-	EBO EBO1(indices, sizeof(indices));
+	EBO EBO(indices, sizeof(indices));
 
 	// Links VBO attributes to VAO
-	VAO1.linkAttrib(VBO1, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0); // Vertex Coords
-	VAO1.linkAttrib(VBO1, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(float))); // Texture Coords
+	VAO.linkAttrib(VBO, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0); // Vertex Coords
+	VAO.linkAttrib(VBO, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(GLfloat))); // Texture Coords
 	// Unbind all to prevent accidentally modifying them
-	VAO1.unbind();
-	VBO1.unbind();
-	EBO1.unbind();
+	VAO.unbind();
+	VBO.unbind();
+	EBO.unbind();
 
-	// Texture
-	Texture image("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\board.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	image.texUnit(shaderProgram, "tex0", 0);
+	// Textures
+	Texture board("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\board.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture white_king("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\black_king.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
 	// Main while loop
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	while (!glfwWindowShouldClose(window))
 	{
 		// Specify the color of the background
@@ -78,25 +90,27 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Tell OpenGL which Shader Program we want to use
 		shaderProgram.activate();
-		// Binds texture so that is appears in rendering
-		image.bind();
 		// Bind the VAO so OpenGL knows to use it
-		VAO1.bind();
-		// Draw primitives, number of indices, datatype of indices, index of indices
+		VAO.bind();
+
+		board.bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		white_king.bind();
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(6*sizeof(GLuint)));
+
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
 		glfwPollEvents();
 	}
-
-
+	glDisable(GL_BLEND);
 
 	// Delete all the objects we've created
-	VAO1.destroy();
-	VBO1.destroy();
-	EBO1.destroy();
-	image.destroy();
+	VAO.destroy();
+	VBO.destroy();
+	EBO.destroy();
+	board.destroy();
+	white_king.destroy();
 	shaderProgram.destroy();
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
