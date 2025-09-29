@@ -2,6 +2,6 @@ Tutorial Link: https://www.youtube.com/watch?v=z03LXhRBLGI&list=PLPaoO-vpZnumdcb
 Repo Link: https://github.com/VictorGordan/opengl-tutorials/tree/main
 **NOTE** I used GLEW instead of GLAD. However these videos and the repo were extremely helpful for learning openGL.
 
-Board Link: https://www.shutterstock.com/image-vector/wooden-chess-board-background-illustration-2245855339 
+Board Link: https://github.com/lichess-org/lila/blob/master/public/images/board/brown.png (brown from lichess) 
 Pieces Link: https://github.com/lichess-org/lila/tree/master/public/piece (cburnett from lichess) 
 Image Converter Link: https://www.filer.dev/convert/image/svg-to-png (used to convert lichess .svgs to .pngs)

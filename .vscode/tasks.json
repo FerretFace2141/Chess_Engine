@@ -8,6 +8,8 @@
             "args": [
                 "-fdiagnostics-color=always",
 
+                "-mwindows",
+
                 "-g",
 
                 "-I${workspaceFolder}\\Graphics\\Headers",
