@@ -22,4 +22,22 @@ void main()
 		FragColor = texture(tex2, texCoord);
 	else if (texID == 3.0)
 		FragColor = texture(tex3, texCoord);
+	else if (texID == 4.0)
+		FragColor = texture(tex4, texCoord);
+	else if (texID == 5.0)
+		FragColor = texture(tex5, texCoord);
+	else if (texID == 6.0)
+		FragColor = texture(tex6, texCoord);
+	else if (texID == 7.0)
+		FragColor = texture(tex7, texCoord);
+	else if (texID == 8.0)
+		FragColor = texture(tex8, texCoord);
+	else if (texID == 9.0)
+		FragColor = texture(tex9, texCoord);
+	else if (texID == 10.0)
+		FragColor = texture(tex10, texCoord);
+	else if (texID == 11.0)
+		FragColor = texture(tex11, texCoord);
+	else if (texID == 12.0)
+		FragColor = texture(tex12, texCoord);
 }
