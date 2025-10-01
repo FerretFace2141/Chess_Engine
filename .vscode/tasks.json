@@ -20,7 +20,7 @@
                 "${workspaceFolder}\\Graphics\\Source\\texture.cpp",
                 "${workspaceFolder}\\Graphics\\Source\\vao.cpp",
                 "${workspaceFolder}\\Graphics\\Source\\vbo.cpp",
-                "${workspaceFolder}\\Graphics\\Source\\main.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\renderer.cpp",
                 "-o",
                 "${workspaceFolder}\\Graphics\\main.exe",
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
@@ -9,54 +10,66 @@
 #include "vao.h"
 #include "vbo.h"
 #include "ebo.h"
+#include "renderer.h"
 
-GLfloat size = 0.7f;
+using std::vector;
+
+const GLfloat size = 0.7f;
+const GLfloat square_size = 0.175f;
+
 int square_x = 7, square_y = 7;
 int square_x1 = 1, square_y1 = 1;
 int square_x2 = 3, square_y2 = 5;
 
 // Vertices coordinates
-GLfloat vertices[] =
-{ //  COORDINATES  //   TEXCOORD   //  TEXTURE
-    // Board	 
+vector<GLfloat> vertices = 
+{
 	 size,  size,     1.0f, 1.0f,     0.0f, // Upper right corner
 	 size, -size,     1.0f, 0.0f,     0.0f, // Lower right corner
 	-size, -size,     0.0f, 0.0f,     0.0f, // Lower left corner
 	-size,  size,     0.0f, 1.0f,     0.0f, // Upper left corner
 
-	// Lower left square
-	(size + -square_x * 0.175f),     (size + -square_y * 0.175f),         1.0f, 1.0f,     10.0f,   // Upper right corner
-	(size + -square_x * 0.175f),     (size + -(square_y+1) * 0.175f),     1.0f, 0.0f,     10.0f,   // Lower right corner
-	(size + -(square_x+1) * 0.175f), (size + -(square_y+1) * 0.175f),     0.0f, 0.0f,     10.0f,   // Lower left corner
-	(size + -(square_x+1) * 0.175f), (size + -square_y * 0.175f),     	  0.0f, 1.0f,     10.0f,   // Upper left corner
+	(size + -square_x * square_size),     (size + -square_y * square_size),         1.0f, 1.0f,     10.0f,   // Upper right corner
+	(size + -square_x * square_size),     (size + -(square_y+1) * square_size),     1.0f, 0.0f,     10.0f,   // Lower right corner
+	(size + -(square_x+1) * square_size), (size + -(square_y+1) * square_size),     0.0f, 0.0f,     10.0f,   // Lower left corner
+	(size + -(square_x+1) * square_size), (size + -square_y * square_size),     	0.0f, 1.0f,     10.0f,   // Upper left corner
 
-	// Lower left square
-	(size + -square_x1 * 0.175f),     (size + -square_y1 * 0.175f),       1.0f, 1.0f,     11.0f,  // Upper right corner
-	(size + -square_x1 * 0.175f),     (size + -(square_y1+1) * 0.175f),   1.0f, 0.0f,     11.0f,  // Lower right corner
-	(size + -(square_x1+1) * 0.175f), (size + -(square_y1+1) * 0.175f),   0.0f, 0.0f,     11.0f,  // Lower left corner
-	(size + -(square_x1+1) * 0.175f), (size + -square_y1 * 0.175f),       0.0f, 1.0f,     11.0f,  // Upper left corner
+	(size + -square_x1 * square_size),     (size + -square_y1 * square_size),       1.0f, 1.0f,     11.0f,  // Upper right corner
+	(size + -square_x1 * square_size),     (size + -(square_y1+1) * square_size),   1.0f, 0.0f,     11.0f,  // Lower right corner
+	(size + -(square_x1+1) * square_size), (size + -(square_y1+1) * square_size),   0.0f, 0.0f,     11.0f,  // Lower left corner
+	(size + -(square_x1+1) * square_size), (size + -square_y1 * square_size),       0.0f, 1.0f,     11.0f,  // Upper left corner
 
-	(size + -square_x2 * 0.175f),     (size + -square_y2 * 0.175f),       1.0f, 1.0f,     12.0f,  // Upper right corner
-	(size + -square_x2 * 0.175f),     (size + -(square_y2+1) * 0.175f),   1.0f, 0.0f,     12.0f,  // Lower right corner
-	(size + -(square_x2+1) * 0.175f), (size + -(square_y2+1) * 0.175f),   0.0f, 0.0f,     12.0f,  // Lower left corner
-	(size + -(square_x2+1) * 0.175f), (size + -square_y2 * 0.175f),       0.0f, 1.0f,     12.0f,  // Upper left corner
+	(size + -square_x2 * square_size),     (size + -square_y2 * square_size),       1.0f, 1.0f,     3.0f,  // Upper right corner
+	(size + -square_x2 * square_size),     (size + -(square_y2+1) * square_size),   1.0f, 0.0f,     3.0f,  // Lower right corner
+	(size + -(square_x2+1) * square_size), (size + -(square_y2+1) * square_size),   0.0f, 0.0f,     3.0f,  // Lower left corner
+	(size + -(square_x2+1) * square_size), (size + -square_y2 * square_size),       0.0f, 1.0f,     3.0f,  // Upper left corner
+
 };
 
 // Indices for vertices order
-GLuint indices[] =
+vector<GLuint> indices =
 {
 	0, 3, 2, // Upper triangle
 	0, 2, 1, // Lower triangle
 	
-	4, 7, 6, // Upper triangle
-	4, 6, 5, // Lower triangle
+	4, 7, 6, 
+	4, 6, 5, 
 	
-	8, 11, 10, // Upper triangle
-	8, 10, 9,  // Lower triangle
+	8, 11, 10, 
+	8, 10, 9,  
 
 	12, 15, 14,
 	12, 14, 13,
 };
+
+// White pieces = lowercase (k,q,r,b,n,p)
+// Black pieces = uppercase (K,Q,R,B,N,P)
+char position[64];
+
+// Function for generating vertices array
+void genVertices(vector<GLfloat> &vertices, const char position [64]){}
+
+void genIndices(vector<GLuint> &indices, const char position [64]){}
 
 int main()
 {
@@ -83,9 +96,9 @@ int main()
 	VAO.bind();
 
 	// Generates Vertex Buffer Object and links it to vertices
-	VBO VBO(vertices, sizeof(vertices));
+	VBO VBO(vertices.data(), vertices.size() * sizeof(GLfloat));
 	// Generates Element Buffer Object and links it to indices
-	EBO EBO(indices, sizeof(indices));
+	EBO EBO(indices.data(), indices.size() * sizeof(GLuint));
 
 	// Links VBO attributes to VAO
 	VAO.linkAttrib(VBO, 0, 2, GL_FLOAT, 5 * sizeof(float), (void*)0); // Vertex Coords
