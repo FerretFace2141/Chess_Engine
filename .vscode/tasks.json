@@ -16,7 +16,13 @@
                 "-I${workspaceFolder}\\Graphics\\Dependencies\\Include",
                 "-L${workspaceFolder}\\Graphics\\Dependencies\\Lib",
 
-                "${workspaceFolder}\\Graphics\\Source\\*.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\ebo.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\shader.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\stb.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\texture.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\vao.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\vbo.cpp",
+                "${workspaceFolder}\\Graphics\\Source\\main.cpp",
                 "-o",
                 "${workspaceFolder}\\Graphics\\main.exe",
 
