@@ -12,30 +12,50 @@
 
 GLfloat size = 0.7f;
 int square_x = 7, square_y = 7;
+int square_x1 = 1, square_y1 = 1;
+int square_x2 = 3, square_y2 = 5;
 
 // Vertices coordinates
 GLfloat vertices[] =
-{ //  COORDINATES  /   TexCoord   //
-    // Board
-	-size, -size,     0.0f, 0.0f, // Lower left corner
-	-size,  size,     0.0f, 1.0f, // Upper left corner
-	 size,  size,     1.0f, 1.0f, // Upper right corner
-	 size, -size,     1.0f, 0.0f,  // Lower right corner
+{ //  COORDINATES  /   TEXCOORD   //  TEXTURE
+    // Board	 
+	 size,  size,     1.0f, 1.0f,     0.0f, // Upper right corner
+	 size, -size,     1.0f, 0.0f,     0.0f, // Lower right corner
+	-size, -size,     0.0f, 0.0f,     0.0f, // Lower left corner
+	-size,  size,     0.0f, 1.0f,     0.0f, // Upper left corner
 
 	// Lower left square
-	(size + -square_x * 0.175f),     (size + -square_y * 0.175f),         0.0f, 0.0f, // Lower left corner
-	(size + -square_x * 0.175f),     (size + -(square_y+1) * 0.175f),     0.0f, 1.0f, // Upper left corner
-	(size + -(square_x+1) * 0.175f), (size + -(square_y+1) * 0.175f),     1.0f, 1.0f, // Upper right corner
-	(size + -(square_x+1) * 0.175f), (size + -square_y * 0.175f),     	  1.0f, 0.0f,  // Lower right corner*/
+	(size + -square_x * 0.175f),     (size + -square_y * 0.175f),         1.0f, 1.0f,     1.0f,   // Upper right corner
+	(size + -square_x * 0.175f),     (size + -(square_y+1) * 0.175f),     1.0f, 0.0f,     1.0f,   // Lower right corner
+	(size + -(square_x+1) * 0.175f), (size + -(square_y+1) * 0.175f),     0.0f, 0.0f,     1.0f,   // Lower left corner
+	(size + -(square_x+1) * 0.175f), (size + -square_y * 0.175f),     	  0.0f, 1.0f,     1.0f,   // Upper left corner
+
+	// Lower left square
+	(size + -square_x1 * 0.175f),     (size + -square_y1 * 0.175f),       1.0f, 1.0f,     2.0f,  // Upper right corner
+	(size + -square_x1 * 0.175f),     (size + -(square_y1+1) * 0.175f),   1.0f, 0.0f,     2.0f,  // Lower right corner
+	(size + -(square_x1+1) * 0.175f), (size + -(square_y1+1) * 0.175f),   0.0f, 0.0f,     2.0f,  // Lower left corner
+	(size + -(square_x1+1) * 0.175f), (size + -square_y1 * 0.175f),       0.0f, 1.0f,     2.0f,  // Upper left corner
+
+	(size + -square_x2 * 0.175f),     (size + -square_y2 * 0.175f),       1.0f, 1.0f,     3.0f,  // Upper right corner
+	(size + -square_x2 * 0.175f),     (size + -(square_y2+1) * 0.175f),   1.0f, 0.0f,     3.0f,  // Lower right corner
+	(size + -(square_x2+1) * 0.175f), (size + -(square_y2+1) * 0.175f),   0.0f, 0.0f,     3.0f,  // Lower left corner
+	(size + -(square_x2+1) * 0.175f), (size + -square_y2 * 0.175f),       0.0f, 1.0f,     3.0f,  // Upper left corner
 };
 
 // Indices for vertices order
 GLuint indices[] =
 {
-	0, 2, 1, // Upper triangle
-	0, 3, 2, // Lower triangle
-	4, 6, 5, // Upper triangle
-	4, 7, 6, // Lower triangle*/
+	0, 3, 2, // Upper triangle
+	0, 2, 1, // Lower triangle
+	
+	4, 7, 6, // Upper triangle
+	4, 6, 5, // Lower triangle
+	
+	8, 11, 10, // Upper triangle
+	8, 10, 9,  // Lower triangle
+
+	12, 15, 14,
+	12, 14, 13,
 };
 
 int main()
@@ -68,16 +88,23 @@ int main()
 	EBO EBO(indices, sizeof(indices));
 
 	// Links VBO attributes to VAO
-	VAO.linkAttrib(VBO, 0, 2, GL_FLOAT, 4 * sizeof(float), (void*)0); // Vertex Coords
-	VAO.linkAttrib(VBO, 1, 2, GL_FLOAT, 4 * sizeof(float), (void*)(2 * sizeof(GLfloat))); // Texture Coords
+	VAO.linkAttrib(VBO, 0, 2, GL_FLOAT, 5 * sizeof(float), (void*)0); // Vertex Coords
+	VAO.linkAttrib(VBO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(2 * sizeof(GLfloat))); // Texture Coords
+	VAO.linkAttrib(VBO, 2, 1, GL_FLOAT, 5 * sizeof(float), (void*)(4 * sizeof(GLfloat))); // Texture
 	// Unbind all to prevent accidentally modifying them
 	VAO.unbind();
 	VBO.unbind();
 	EBO.unbind();
 
 	// Textures
-	Texture board("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\board.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	Texture white_king("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\black_king.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture board("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\board.png", GL_TEXTURE_2D, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	board.texUnit(shaderProgram, "tex0", 0);
+	Texture white_king("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\white_king.png", GL_TEXTURE_2D, GL_RGBA, GL_UNSIGNED_BYTE, 1);
+	white_king.texUnit(shaderProgram, "tex1", 1);
+	Texture black_king("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\black_king.png", GL_TEXTURE_2D, GL_RGBA, GL_UNSIGNED_BYTE, 2);
+	black_king.texUnit(shaderProgram, "tex2", 2);
+	Texture white_knight("C:\\Users\\Zach\\Documents\\Code\\Chess_Engine\\Graphics\\Resources\\Textures\\white_knight.png", GL_TEXTURE_2D, GL_RGBA, GL_UNSIGNED_BYTE, 3);
+	white_knight.texUnit(shaderProgram, "tex3", 3);
 
 	// Enable blending and configure the blend function for transparency blending
 	glEnable(GL_BLEND);
@@ -95,10 +122,15 @@ int main()
 		// Bind the VAO so OpenGL knows to use it
 		VAO.bind();
 
-		board.bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		white_king.bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(6*sizeof(GLuint)));
+		board.bind(GL_TEXTURE0);
+		white_king.bind(GL_TEXTURE1);
+		black_king.bind(GL_TEXTURE2);
+		white_knight.bind(GL_TEXTURE3);
+		glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
+		//white_king.bind();
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(6*sizeof(GLuint)));
+		//black_king.bind();
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(12*sizeof(GLuint)));
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
@@ -112,7 +144,7 @@ int main()
 	VBO.destroy();
 	EBO.destroy();
 	board.destroy();
-	white_king.destroy();
+	//white_king.destroy();
 	shaderProgram.destroy();
 	// Delete window before ending the program
 	glfwDestroyWindow(window);

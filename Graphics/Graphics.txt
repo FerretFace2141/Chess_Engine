@@ -5,3 +5,5 @@ Repo Link: https://github.com/VictorGordan/opengl-tutorials/tree/main
 Board Link: https://github.com/lichess-org/lila/blob/master/public/images/board/brown.png (brown from lichess) 
 Pieces Link: https://github.com/lichess-org/lila/tree/master/public/piece (cburnett from lichess) 
 Image Converter Link: https://www.filer.dev/convert/image/svg-to-png (used to convert lichess .svgs to .pngs)
+
+https://www.youtube.com/watch?v=9cP1w2ykaYc: This tutorial was also quite helpful for my understanding of textures
